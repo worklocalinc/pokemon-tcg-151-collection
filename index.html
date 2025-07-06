@@ -40,6 +40,7 @@
             transition: transform 0.2s, box-shadow 0.2s;
             text-align: center;
             cursor: pointer;
+            position: relative;
         }
         .card:hover {
             transform: translateY(-5px);
@@ -50,11 +51,15 @@
             height: auto;
             border-radius: 5px;
         }
-        .card-number {
+        .card-name {
             font-weight: bold;
-            color: #666;
+            color: #333;
             margin-top: 5px;
-            font-size: 14px;
+            font-size: 12px;
+        }
+        .card-number {
+            color: #666;
+            font-size: 11px;
         }
         .section-header {
             grid-column: 1 / -1;
@@ -98,7 +103,7 @@
 <body>
     <div class="container">
         <h1>Pokédex 151 - Scarlet & Violet Collection</h1>
-        <div class="stats">Complete Set: 207 Cards</div>
+        <div class="stats">Complete Set: 165 Cards</div>
         
         <div class="card-grid" id="cardGrid">
             <!-- Cards will be inserted here by JavaScript -->
@@ -117,57 +122,213 @@
         const modal = document.getElementById('modal');
         const modalImg = document.getElementById('modalImg');
         
-        // Generate all 207 cards
+        // Pokemon card data
+        const cardData = [
+            {num: "001", name: "Bulbasaur"},
+            {num: "002", name: "Ivysaur"},
+            {num: "003", name: "Venusaur_ex"},
+            {num: "004", name: "Charmander"},
+            {num: "005", name: "Charmeleon"},
+            {num: "006", name: "Charizard_ex"},
+            {num: "007", name: "Squirtle"},
+            {num: "008", name: "Wartortle"},
+            {num: "009", name: "Blastoise_ex"},
+            {num: "010", name: "Caterpie"},
+            {num: "011", name: "Metapod"},
+            {num: "012", name: "Butterfree"},
+            {num: "013", name: "Weedle"},
+            {num: "014", name: "Kakuna"},
+            {num: "015", name: "Beedrill"},
+            {num: "016", name: "Pidgey"},
+            {num: "017", name: "Pidgeotto"},
+            {num: "018", name: "Pidgeot"},
+            {num: "019", name: "Rattata"},
+            {num: "020", name: "Raticate"},
+            {num: "021", name: "Spearow"},
+            {num: "022", name: "Fearow"},
+            {num: "023", name: "Ekans"},
+            {num: "024", name: "Arbok_ex"},
+            {num: "025", name: "Pikachu"},
+            {num: "026", name: "Raichu"},
+            {num: "027", name: "Sandshrew"},
+            {num: "028", name: "Sandslash"},
+            {num: "029", name: "Nidoran_"},
+            {num: "030", name: "Nidorina"},
+            {num: "031", name: "Nidoqueen"},
+            {num: "032", name: "Nidoran_"},
+            {num: "033", name: "Nidorino"},
+            {num: "034", name: "Nidoking"},
+            {num: "035", name: "Clefairy"},
+            {num: "036", name: "Clefable"},
+            {num: "037", name: "Vulpix"},
+            {num: "038", name: "Ninetales_ex"},
+            {num: "039", name: "Jigglypuff"},
+            {num: "040", name: "Wigglytuff_ex"},
+            {num: "041", name: "Zubat"},
+            {num: "042", name: "Golbat"},
+            {num: "043", name: "Oddish"},
+            {num: "044", name: "Gloom"},
+            {num: "045", name: "Vileplume"},
+            {num: "046", name: "Paras"},
+            {num: "047", name: "Parasect"},
+            {num: "048", name: "Venonat"},
+            {num: "049", name: "Venomoth"},
+            {num: "050", name: "Diglett"},
+            {num: "051", name: "Dugtrio"},
+            {num: "052", name: "Meowth"},
+            {num: "053", name: "Persian"},
+            {num: "054", name: "Psyduck"},
+            {num: "055", name: "Golduck"},
+            {num: "056", name: "Mankey"},
+            {num: "057", name: "Primeape"},
+            {num: "058", name: "Growlithe"},
+            {num: "059", name: "Arcanine"},
+            {num: "060", name: "Poliwag"},
+            {num: "061", name: "Poliwhirl"},
+            {num: "062", name: "Poliwrath"},
+            {num: "063", name: "Abra"},
+            {num: "064", name: "Kadabra"},
+            {num: "065", name: "Alakazam_ex"},
+            {num: "066", name: "Machop"},
+            {num: "067", name: "Machoke"},
+            {num: "068", name: "Machamp"},
+            {num: "069", name: "Bellsprout"},
+            {num: "070", name: "Weepinbell"},
+            {num: "071", name: "Victreebel"},
+            {num: "072", name: "Tentacool"},
+            {num: "073", name: "Tentacruel"},
+            {num: "074", name: "Geodude"},
+            {num: "075", name: "Graveler"},
+            {num: "076", name: "Golem_ex"},
+            {num: "077", name: "Ponyta"},
+            {num: "078", name: "Rapidash"},
+            {num: "079", name: "Slowpoke"},
+            {num: "080", name: "Slowbro"},
+            {num: "081", name: "Magnemite"},
+            {num: "082", name: "Magneton"},
+            {num: "083", name: "Farfetchd"},
+            {num: "084", name: "Doduo"},
+            {num: "085", name: "Dodrio"},
+            {num: "086", name: "Seel"},
+            {num: "087", name: "Dewgong"},
+            {num: "088", name: "Grimer"},
+            {num: "089", name: "Muk"},
+            {num: "090", name: "Shellder"},
+            {num: "091", name: "Cloyster"},
+            {num: "092", name: "Gastly"},
+            {num: "093", name: "Haunter"},
+            {num: "094", name: "Gengar"},
+            {num: "095", name: "Onix"},
+            {num: "096", name: "Drowzee"},
+            {num: "097", name: "Hypno"},
+            {num: "098", name: "Krabby"},
+            {num: "099", name: "Kingler"},
+            {num: "100", name: "Voltorb"},
+            {num: "101", name: "Electrode"},
+            {num: "102", name: "Exeggcute"},
+            {num: "103", name: "Exeggutor"},
+            {num: "104", name: "Cubone"},
+            {num: "105", name: "Marowak"},
+            {num: "106", name: "Hitmonlee"},
+            {num: "107", name: "Hitmonchan"},
+            {num: "108", name: "Lickitung"},
+            {num: "109", name: "Koffing"},
+            {num: "110", name: "Weezing"},
+            {num: "111", name: "Rhyhorn"},
+            {num: "112", name: "Rhydon"},
+            {num: "113", name: "Chansey"},
+            {num: "114", name: "Tangela"},
+            {num: "115", name: "Kangaskhan_ex"},
+            {num: "116", name: "Horsea"},
+            {num: "117", name: "Seadra"},
+            {num: "118", name: "Goldeen"},
+            {num: "119", name: "Seaking"},
+            {num: "120", name: "Staryu"},
+            {num: "121", name: "Starmie"},
+            {num: "122", name: "Mr_Mime"},
+            {num: "123", name: "Scyther"},
+            {num: "124", name: "Jynx_ex"},
+            {num: "125", name: "Electabuzz"},
+            {num: "126", name: "Magmar"},
+            {num: "127", name: "Pinsir"},
+            {num: "128", name: "Tauros"},
+            {num: "129", name: "Magikarp"},
+            {num: "130", name: "Gyarados"},
+            {num: "131", name: "Lapras"},
+            {num: "132", name: "Ditto"},
+            {num: "133", name: "Eevee"},
+            {num: "134", name: "Vaporeon"},
+            {num: "135", name: "Jolteon"},
+            {num: "136", name: "Flareon"},
+            {num: "137", name: "Porygon"},
+            {num: "138", name: "Omanyte"},
+            {num: "139", name: "Omastar"},
+            {num: "140", name: "Kabuto"},
+            {num: "141", name: "Kabutops"},
+            {num: "142", name: "Aerodactyl"},
+            {num: "143", name: "Snorlax"},
+            {num: "144", name: "Articuno"},
+            {num: "145", name: "Zapdos_ex"},
+            {num: "146", name: "Moltres"},
+            {num: "147", name: "Dratini"},
+            {num: "148", name: "Dragonair"},
+            {num: "149", name: "Dragonite"},
+            {num: "150", name: "Mewtwo"},
+            {num: "151", name: "Mew_ex"},
+            {num: "152", name: "Antique_Dome_Fossil"},
+            {num: "153", name: "Antique_Helix_Fossil"},
+            {num: "154", name: "Antique_Old_Amber"},
+            {num: "155", name: "Bill"},
+            {num: "156", name: "Blaines_Quiz_Show"},
+            {num: "157", name: "Brocks_Training"},
+            {num: "158", name: "Erikas_Invitation"},
+            {num: "159", name: "Giovannis_Machinations"},
+            {num: "160", name: "Kogas_Ninja_Trick"},
+            {num: "161", name: "Lt_Surges_Discard_Pile_Surprise"},
+            {num: "162", name: "Mistys_Water_Command"},
+            {num: "163", name: "Sabrina"},
+            {num: "164", name: "Genetic_Apex_Energy_Sphere"},
+            {num: "165", name: "Grabber"}
+        ];
+        
+        // Generate all cards
         function generateCards() {
-            // Add section headers at appropriate points
-            const sections = [
-                {start: 1, name: "Base Set (1-165)"},
-                {start: 166, name: "Illustration Rares (166-181)"},
-                {start: 182, name: "Full Art Cards (182-197)"},
-                {start: 198, name: "Special Illustration Rares (198-204)"},
-                {start: 205, name: "Hyper Rares (205-207)"}
-            ];
+            // Add section header for base set
+            const header = document.createElement('div');
+            header.className = 'section-header';
+            header.textContent = 'Base Set (1-165)';
+            cardGrid.appendChild(header);
             
-            let currentSection = 0;
-            
-            for (let i = 1; i <= 207; i++) {
-                // Add section header if needed
-                if (currentSection < sections.length && i === sections[currentSection].start) {
-                    const header = document.createElement('div');
-                    header.className = 'section-header';
-                    header.textContent = sections[currentSection].name;
-                    cardGrid.appendChild(header);
-                    currentSection++;
-                }
-                
+            cardData.forEach((card) => {
                 // Create card element
-                const card = document.createElement('div');
-                card.className = 'card';
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
                 
                 const img = document.createElement('img');
-                const cardNumber = String(i).padStart(3, '0');
-                img.src = `${cardNumber}_*.jpg`;  // Browser will find the file
-                img.alt = `Card ${i}`;
-                img.onerror = function() {
-                    // If exact filename doesn't work, try a generic approach
-                    this.src = `${cardNumber}.jpg`;
-                };
+                img.src = `${card.num}_${card.name}.png`;
+                img.alt = `${card.name}`;
+                img.loading = 'lazy';
+                
+                const name = document.createElement('div');
+                name.className = 'card-name';
+                name.textContent = card.name.replace(/_/g, ' ');
                 
                 const number = document.createElement('div');
                 number.className = 'card-number';
-                number.textContent = `#${cardNumber}`;
+                number.textContent = `#${card.num}`;
                 
-                card.appendChild(img);
-                card.appendChild(number);
+                cardDiv.appendChild(img);
+                cardDiv.appendChild(name);
+                cardDiv.appendChild(number);
                 
                 // Add click handler for modal
-                card.onclick = function() {
+                cardDiv.onclick = function() {
                     modal.style.display = 'block';
                     modalImg.src = img.src;
                 };
                 
-                cardGrid.appendChild(card);
-            }
+                cardGrid.appendChild(cardDiv);
+            });
         }
         
         // Close modal when clicked
