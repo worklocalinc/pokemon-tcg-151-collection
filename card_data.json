@@ -1,0 +1,37 @@
+[
+  {
+    "id": "001",
+    "name": "Bulbasaur",
+    "image_url": "https://images.squarespace-cdn.com/content/v1/5cf4cfa4382ac0000123aa1b/1695316217292-XHE7LY1F7JIV9NHHD7E3/sv3-5_en_001.png",
+    "type": "Grass",
+    "rarity": "Common",
+    "variant_type": "base",
+    "collected": false
+  },
+  {
+    "id": "002",
+    "name": "Ivysaur",
+    "image_url": "https://images.squarespace-cdn.com/content/v1/5cf4cfa4382ac0000123aa1b/1695316217338-U6NLUADX25AYQRA7SUYJ/sv3-5_en_002.png",
+    "type": "Grass",
+    "rarity": "Uncommon",
+    "variant_type": "base",
+    "collected": false
+  },
+  {
+    "id": "003",
+    "name": "Venusaur ex",
+    "image_url": "https://images.squarespace-cdn.com/content/v1/5cf4cfa4382ac0000123aa1b/1695316217400-9X910NW2J0XM8F3JZ6D4/sv3-5_en_003.png",
+    "type": "Grass",
+    "rarity": "Double Rare",
+    "variant_type": "ex",
+    "collected": false
+  },
+  {
+    "id": "004",
+    "name": "Charmander",
+    "image_url": "https://images.squarespace-cdn.com/content/v1/5cf4cfa4382ac0000123aa1b/1695316217438-K1S6QB2G0W7MHOXMMS5N/sv3-5_en_004.png",
+    "type": "Fire",
+    "rarity": "Common",
+    "variant_type": "base",
+    "collected": false
+  }

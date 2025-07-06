@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex 151 - Scarlet & Violet Collection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .stats {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+            color: #666;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 20px 0;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-align: center;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .card-number {
+            font-weight: bold;
+            color: #666;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        .section-header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin: 30px 0 10px 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #444;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            cursor: pointer;
+        }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .modal-content img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pokédex 151 - Scarlet & Violet Collection</h1>
+        <div class="stats">Complete Set: 207 Cards</div>
+        
+        <div class="card-grid" id="cardGrid">
+            <!-- Cards will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal for full-size image -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <img id="modalImg" src="" alt="">
+        </div>
+    </div>
+
+    <script>
+        const cardGrid = document.getElementById('cardGrid');
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modalImg');
+        
+        // Generate all 207 cards
+        function generateCards() {
+            // Add section headers at appropriate points
+            const sections = [
+                {start: 1, name: "Base Set (1-165)"},
+                {start: 166, name: "Illustration Rares (166-181)"},
+                {start: 182, name: "Full Art Cards (182-197)"},
+                {start: 198, name: "Special Illustration Rares (198-204)"},
+                {start: 205, name: "Hyper Rares (205-207)"}
+            ];
+            
+            let currentSection = 0;
+            
+            for (let i = 1; i <= 207; i++) {
+                // Add section header if needed
+                if (currentSection < sections.length && i === sections[currentSection].start) {
+                    const header = document.createElement('div');
+                    header.className = 'section-header';
+                    header.textContent = sections[currentSection].name;
+                    cardGrid.appendChild(header);
+                    currentSection++;
+                }
+                
+                // Create card element
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                const img = document.createElement('img');
+                const cardNumber = String(i).padStart(3, '0');
+                img.src = `${cardNumber}_*.jpg`;  // Browser will find the file
+                img.alt = `Card ${i}`;
+                img.onerror = function() {
+                    // If exact filename doesn't work, try a generic approach
+                    this.src = `${cardNumber}.jpg`;
+                };
+                
+                const number = document.createElement('div');
+                number.className = 'card-number';
+                number.textContent = `#${cardNumber}`;
+                
+                card.appendChild(img);
+                card.appendChild(number);
+                
+                // Add click handler for modal
+                card.onclick = function() {
+                    modal.style.display = 'block';
+                    modalImg.src = img.src;
+                };
+                
+                cardGrid.appendChild(card);
+            }
+        }
+        
+        // Close modal when clicked
+        modal.onclick = function() {
+            modal.style.display = 'none';
+        };
+        
+        // Generate cards when page loads
+        generateCards();
+    </script>
+</body>
+</html>
